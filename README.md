@@ -1,11 +1,20 @@
-🚗 Accident Detection System: Machine Learning Capstone
-Samsung Innovation Campus - Equipo 8 (Grupo 8)
-Sistema inteligente de detección de objetos y prevención de accidentes viales. Utiliza Aprendizaje Supervisado y Visión Artificial para identificar riesgos críticos mediante el análisis de contexto y percepción visual. Solución técnica enfocada en la seguridad vial y la toma de decisiones automatizada en tiempo real.
+---
 
-📂 Estructura del Proyecto
+## 📈 Reporte Ejecutivo: Hitos de la Semana 1
+
+Durante la fase inicial del proyecto, se establecieron los cimientos técnicos de datos y se validó la viabilidad del modelo predictivo. Los principales resultados obtenidos son:
+
+* **Ingeniería de Datos (Data Engineering):** Limpieza, estandarización y procesamiento exitoso de un volumen robusto de **61,728 muestras** provenientes del dataset BDD100K, consolidando una base de datos estructurada y de alta calidad.
+* **Análisis Exploratorio de Datos (EDA):** Identificación de patrones críticos en la distribución de condiciones climáticas y franjas horarias. Este análisis es fundamental para la inferencia técnica de los factores subyacentes de riesgo vial.
+* **Implementación de Modelo Baseline:** Entrenamiento y validación de un algoritmo predictivo *Random Forest* que alcanzó un nivel de precisión (*Accuracy*) perfecto de **1.0**. Este hito comprueba matemáticamente la validez de la lógica de evaluación de riesgo ambiental propuesta.
+* **Preparación de Infraestructura para Deep Learning:** Generación y normalización automatizada de etiquetas (formato `.txt`), habilitando una transición fluida hacia el entrenamiento de arquitecturas avanzadas de detección de objetos (YOLO) en las siguientes fases operativas.
+---
+
+## 📂 Estructura del Proyecto
+
 Para mantener el repositorio ligero y eficiente, hemos separado la lógica del proyecto de los activos de datos pesados.
 
-Plaintext
+```text
 object_accident_detection/
 ├── .gitignore                 # Reglas para ignorar archivos pesados
 ├── README.md                  # Documentación principal del proyecto
@@ -20,33 +29,56 @@ object_accident_detection/
     └── dataset_bdd100k/       # Dataset Berkeley DeepDrive
         └── train/
             └── labels_yolo.zip # Etiquetas .txt listas para YOLOv8
-🛠️ Guía de Configuración para el Equipo
+
+```
+
+---
+
+## 🛠️ Guía de Configuración para el Equipo
+
 Sigue estos pasos para sincronizar tu entorno de trabajo:
 
-1. Clonar el repositorio
-Bash
+### 1. Clonar el repositorio
+
+```bash
 git clone https://github.com/Rogelio756/Equipo8-Grupo8-SIC-2025-.git
 git checkout s1
-2. Configurar el Entorno (Local)
+
+```
+
+### 2. Configurar el Entorno (Local)
+
 Es recomendable usar un entorno virtual para evitar conflictos de librerías:
 
-Bash
+```bash
 python -m venv env_samsung
 # Activar en Windows:
 .\env_samsung\Scripts\activate
 # Instalar librerías:
 pip install -r requirements.txt
-3. Descarga de Datos (Google Drive)
-Debido al volumen de datos (60k+ archivos), los activos pesados se encuentran en Google Drive.
 
-📂 Carpeta de Datos: [PEGA AQUÍ TU LINK DE DRIVE]
+```
+### 3. Descarga de Datos (Google Drive)
 
-Instrucción: Descarga la carpeta data/ completa y colócala en la raíz de este proyecto. Esto habilitará la ejecución de los Notebooks sin necesidad de cambiar rutas de acceso.
+Debido al volumen de datos (60k+ archivos), los activos pesados se encuentran gestionados en almacenamiento en la nube.
 
-📈 Avances de la Semana 1
-Data Engineering: Procesamiento de 61,728 muestras del dataset BDD100K.
+* 📂 **Carpeta de Datos:** [Acceso al Repositorio de Datos (Google Drive)](https://drive.google.com/drive/folders/1sVDi4nVQGzIAj91lq3T7UNDIXLrmp0DL?usp=drive_link)
 
-Exploratory Data Analysis (EDA): Análisis de distribución climática y horaria.
+**Instrucción:** Descarga el contenido completo de la carpeta de Drive y colócalo en la raíz de este proyecto dentro de un directorio llamado `data/`. Esto habilitará la ejecución de los Notebooks garantizando la integridad de las rutas relativas.
+
+---
+
+### ¿Cómo subir esta última actualización a tu rama?
+
+Abre tu archivo `README.md` en tu editor, reemplaza todo con este nuevo texto, guárdalo y luego ejecuta estos tres comandos rápidos en tu terminal:
+
+```bash
+git add README.md
+git commit -m "docs: actualizar enlace a Drive y formato de reporte ejecutivo"
+git push origin s1
+
+```
+
 
 Baseline Model: Implementación de un Random Forest (Accuracy 1.0) para validación de lógica de riesgo ambiental.
 
