@@ -1,0 +1,19 @@
+# --- BLOQUEO TOTAL DE DATOS ---
+# Esto ignora la carpeta completa y todo lo que tenga dentro
+data/
+**/data/
+
+# --- Entornos y Temporales ---
+env_samsung/
+venv/
+__pycache__/
+.ipynb_checkpoints/
+
+# --- Archivos pesados específicos ---
+*.zip
+*.json
+*.csv
+
+# --- Basura de sistema ---
+.vscode/
+.DS_Store
