@@ -16,7 +16,7 @@
 
 * **Ingeniería de Datos:** [0% COMPLETADO] Limpieza, balanceo de clases y etiquetado (.txt formato YOLO) del dataset BDD100K.
 * **Modelo de Contexto (Random Forest):** [0% AVANCE] Entrenamiento inicial y métricas preliminares de riesgo ambiental.
-* **Modelo de Percepción (YOLOv8):** [00% AVANCE] Fase de entrenamiento en Google Colab/Jupyter.
+* **Modelo de Percepción (YOLOv8):** [0% AVANCE] Fase de entrenamiento en Google Colab/Jupyter.
 * **Integración y Risk Scoring:** [EN DESARROLLO]
 
 ---
