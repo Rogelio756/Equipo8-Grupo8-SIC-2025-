@@ -1,0 +1,42 @@
+# --- Datos ---
+data/
+**/data/
+
+# --- Entornos virtuales ---
+env_ml/
+env_samsung/
+env_samsung2/
+venv/
+pip_cache/
+pip_tmp/
+pyg_libs/
+
+# --- Videos finales ---
+videosFinales/
+
+# --- Resultados de entrenamiento ---
+notebooks/runs/
+
+# --- Modelos y pesos ---
+*.pt
+*.pth
+*.npy
+*.pkl
+
+# --- Archivos comprimidos y datos tabulares ---
+*.zip
+*.csv
+
+# --- JSON (datos/configs) pero NO notebooks Jupyter ---
+*.json
+!*.ipynb
+
+# --- Temporales de Jupyter ---
+.ipynb_checkpoints/
+
+# --- Cache de Python ---
+__pycache__/
+
+# --- Basura de sistema ---
+.vscode/
+.DS_Store
