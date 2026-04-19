@@ -1,0 +1,134 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.section { margin-bottom: 1.75rem; }
+.section-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; padding-bottom: 5px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 0.6rem; }
+.badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 4px; margin-right: 6px; }
+.ok { background: var(--color-background-success); color: var(--color-text-success); }
+.info { background: var(--color-background-info); color: var(--color-text-info); }
+.warn { background: var(--color-background-warning); color: var(--color-text-warning); }
+.title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 3px; }
+.desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; }
+.mono { font-family: var(--font-mono); font-size: 11px; background: var(--color-background-secondary); padding: 1px 6px; border-radius: 4px; }
+.metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; }
+.metric { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 8px; text-align: center; }
+.metric-val { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+.metric-label { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.4; }
+.row { display: flex; gap: 10px; padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 13px; align-items: flex-start; }
+.row:last-child { border-bottom: none; }
+.row-label { min-width: 130px; color: var(--color-text-secondary); flex-shrink: 0; font-size: 12px; }
+.row-val { color: var(--color-text-primary); font-size: 12px; line-height: 1.5; }
+.flow { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.flow-node { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 6px; padding: 4px 10px; font-size: 12px; color: var(--color-text-primary); font-family: var(--font-mono); }
+.flow-arrow { color: var(--color-text-tertiary); font-size: 14px; }
+.level-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+.level { border-radius: var(--border-radius-md); padding: 10px 12px; }
+.level.low { background: var(--color-background-success); }
+.level.med { background: var(--color-background-warning); }
+.level.high { background: var(--color-background-danger); }
+.level-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.level-desc { font-size: 11px; color: var(--color-text-secondary); line-height: 1.5; }
+</style>
+
+<div style="padding: 1rem 0;">
+
+<div class="section">
+  <div class="section-label">pipeline completo — 5 cuadernos</div>
+  <div class="card">
+    <div class="flow">
+      <div class="flow-node">01 preprocessing</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">02 spatial perception</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">03 spatiotemporal</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">04 BNN</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">05 agente</div>
+    </div>
+    <div class="flow" style="margin-top:10px;">
+      <div class="flow-node">61,345 imgs</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">YOLO+SegFormer+ResNet</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">GCN+LSTM</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">riesgo+σ</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">video anotado</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">métricas clave</div>
+  <div class="metric-grid">
+    <div class="metric"><div class="metric-val">8.1</div><div class="metric-label">FPS pipeline completo (high)</div></div>
+    <div class="metric"><div class="metric-val">120</div><div class="metric-label">ms latencia media (high)</div></div>
+    <div class="metric"><div class="metric-val">0.916</div><div class="metric-label">Pearson r GCN+LSTM</div></div>
+    <div class="metric"><div class="metric-val">0.615</div><div class="metric-label">Pearson r BNN test</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">modelos entrenados — 6 checkpoints</div>
+  <div class="card">
+    <div class="row"><span class="row-label">YOLOv8n</span><span class="row-val">detección de objetos 80 clases COCO · 416×416</span></div>
+    <div class="row"><span class="row-label">SegFormer-B0</span><span class="row-val">segmentación semántica 19 clases Cityscapes · val mIoU=0.47</span></div>
+    <div class="row"><span class="row-label">ResNet18+SPP</span><span class="row-val">extractor de features espaciales · output (1, 2048, 9, 12)</span></div>
+    <div class="row"><span class="row-label">GCNEncoder</span><span class="row-val">grafo de objetos YOLO → embedding 128-dim por frame</span></div>
+    <div class="row"><span class="row-label">RiskLSTM</span><span class="row-val">secuencia 10 frames → risk score · MAE=0.145</span></div>
+    <div class="row"><span class="row-label">BNNRiskPredictor</span><span class="row-val">embedding 128-dim → risk score + incertidumbre σ · MC Dropout</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">niveles de riesgo — strategy pattern</div>
+  <div class="level-grid">
+    <div class="level low">
+      <div class="level-title">low  &lt; 0.62</div>
+      <div class="level-desc">solo YOLO activo<br>~44 FPS · 20ms</div>
+    </div>
+    <div class="level med">
+      <div class="level-title">medium 0.62–0.68</div>
+      <div class="level-desc">YOLO + SegFormer<br>~12 FPS · 82ms</div>
+    </div>
+    <div class="level high">
+      <div class="level-title">high  &gt; 0.68</div>
+      <div class="level-desc">todos los modelos<br>~8 FPS · 120ms</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">módulos src/ — arquitectura híbrida</div>
+  <div class="card">
+    <div class="row"><span class="row-label mono">model_manager.py</span><span class="row-val">ModelRegistry — lazy loading + offload CPU/GPU para GTX 1660 Ti 6GB</span></div>
+    <div class="row"><span class="row-label mono">agent_state.py</span><span class="row-val">AgentState — deque 10 frames · histéresis · State machine · Strategy</span></div>
+    <div class="row"><span class="row-label mono">perception.py</span><span class="row-val">PerceptionEngine — CLAHE condicional → YOLO → SegFormer → ResNet</span></div>
+    <div class="row"><span class="row-label mono">risk_estimator.py</span><span class="row-val">RiskEstimator — boxes→grafo PyG → GCN → LSTM → BNN → (score, σ)</span></div>
+    <div class="row"><span class="row-label mono">overlay.py</span><span class="row-val">OverlayRenderer — máscaras Cityscapes + bboxes COCO + HUD con σ</span></div>
+    <div class="row"><span class="row-label mono">alert_logger.py</span><span class="row-val">AlertLogger — histéresis · debounce 10 frames · CSV + JSON</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">outputs generados por video</div>
+  <div class="card">
+    <div class="row"><span class="row-label mono">video_output.mp4</span><span class="row-val">video anotado con máscaras semánticas · bboxes · HUD completo</span></div>
+    <div class="row"><span class="row-label mono">video_alerts.csv</span><span class="row-val">timestamp · frame · level · risk_score · uncertainty por alerta</span></div>
+    <div class="row"><span class="row-label mono">video_metrics.json</span><span class="row-val">FPS real · latencia · frames por nivel · conteo de alertas</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">dataset</div>
+  <div class="card">
+    <div class="row"><span class="row-label">Entrenamiento</span><span class="row-val">BDD100K — 61,345 imágenes curadas con CLAHE condicional</span></div>
+    <div class="row"><span class="row-label">Video inferencia</span><span class="row-val">BDDA — 925 clips 1280×720 · 10s/clip · conducción real</span></div>
+    <div class="row"><span class="row-label">Hardware</span><span class="row-val">NVIDIA GTX 1660 Ti · 6GB VRAM · CUDA 12.1 · PyTorch 2.5.1</span></div>
+  </div>
+</div>
+
+</div>
