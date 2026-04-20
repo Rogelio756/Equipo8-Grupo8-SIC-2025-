@@ -145,6 +145,9 @@ pip install -r requirements.txt
 
 ---
 
-## Equipo
+## Autor
 
-**Equipo 8 — Grupo 8 | Samsung Innovation Campus 2025**
+**Rogelio Leonardo Méndez Macías**
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Rogelio%20Leonardo-blue?logo=linkedin)](https://www.linkedin.com/in/rogelio-leonardo-mendez-macias/)
+
+Equipo 8 — Grupo 8 | Samsung Innovation Campus 2025
