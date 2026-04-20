@@ -51,27 +51,7 @@ Sistema de predicción de riesgo de accidente vial en tiempo real. Procesa video
 
 ## Arquitectura del Pipeline
 
-```
-Video BDDA
-    │
-    ▼
-01_preprocessing      →  CLAHE condicional · Resize 416×416 · Normalización ImageNet
-    │
-    ▼
-02_spatial_perception →  YOLOv8 (detección) · SegFormer-B0 (segmentación) · ResNet18+SPP (features)
-    │
-    ▼
-03_spatiotemporal     →  GCNEncoder (grafo de objetos) · RiskLSTM (secuencia temporal)
-    │
-    ▼
-04_prediction_alert   →  BNNRiskPredictor (MC Dropout · incertidumbre bayesiana)
-    │
-    ▼
-05_agent              →  Strategy pattern adaptativo · HUD overlay · AlertLogger
-    │
-    ▼
-video_output.mp4  +  alerts.csv
-```
+![pipeline](assets/pipeline_arquitectura.jpg)
 
 El agente implementa un **strategy pattern** adaptativo: según el nivel de riesgo activa más o menos modelos, balanceando precisión y latencia bajo restricción de 6 GB VRAM (GTX 1660 Ti).
 
