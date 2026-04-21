@@ -91,7 +91,6 @@ Aplica tratamiento inverso según condición lumínica: **CLAHE para imágenes n
 - [x] Estudio comparativo de 3 estrategias finalizado
 - [x] Reporte de investigación redactado
 - [ ] Presentación final Samsung Innovation Campus
-- [ ] Exploración de deployment en Hailo-8 / Raspberry Pi 5
 
 ---
 
