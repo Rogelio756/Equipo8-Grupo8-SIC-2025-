@@ -19,71 +19,47 @@ Nuestra respuesta es un sistema inteligente basado en visión computacional que 
 
 📑 **[Leer el reporte de investigación completo (Google Drive)](https://drive.google.com/file/d/1SljURoOS64QAmCp11E4AWskLvXaybuZ8/view?usp=sharing)**
 
-El documento cubre: introducción y problemática, estado del arte, metodología de las tres estrategias, resultados experimentales, discusión comparativa y trabajo futuro — en formato de reporte académico Samsung Innovation Campus 2025–2026.
+El documento cubre: introducción y problemática, estado del arte, metodología de las tres estrategias, resultados experimentales, discusión comparativa y trabajo futuro.
 
 ---
 
-## 🧠 Resumen Técnico
+## 🔬 Estrategias de Pipeline
 
-La hipótesis central del proyecto establece que, al clasificar con precisión los factores de riesgo del entorno y las trayectorias vehiculares en tiempo real, es posible transformar la prevención de siniestros de una suposición estadística a una **detección determinista de riesgos**.
+### 🔵 Estrategia I — Normalización Selectiva por Condición Lumínica *(Rogelio)*
 
-### Pipeline de 5 Etapas (Estrategia I)
+El pipeline más complejo del estudio. Aplica **CLAHE condicional**: normalización de intensidad para imágenes nocturnas y CLAHE para imágenes diurnas. Sobre este preprocesamiento construye una arquitectura de **cinco etapas** en cascada: percepción multimodal (YOLOv8n + SegFormer-B0 + ResNet-18+SPP), modelado de grafos de interacción vehicular (GCNEncoder), predicción de series temporales (RiskLSTM) y cuantificación de incertidumbre bayesiana (BNN con MC Dropout, T=20 pasadas Monte Carlo). El agente final opera entre **44 FPS** en escenarios de riesgo bajo y **8.1 FPS** con el pipeline completo activo, sobre una GPU de 6 GB VRAM. Validado sobre 925 clips dashcam reales del conjunto BDDA.
 
-| Etapa | Componente | Descripción |
-|-------|-----------|-------------|
-| **01 · Preprocesamiento** | CLAHE Condicional | 61,345 imágenes BDD100K → 416×416, split 70/15/15. CLAHE en diurnas, normalización en nocturnas |
-| **02 · Percepción Espacial** | YOLOv8n + SegFormer-B0 + ResNet-18+SPP | Detección de objetos (nodos GCN), segmentación semántica (val mIoU=0.47) y extracción de features |
-| **03 · Modelado Espaciotemporal** | GCNEncoder + RiskLSTM | Grafo de interacciones vehiculares + secuencias de 10 frames → **Pearson r=0.916**, MAE=0.145 |
-| **04 · Predicción con Incertidumbre** | BNN con MC Dropout (T=20) | Risk Score continuo + intervalo de confianza → Pearson r=0.615 en test |
-| **05 · Agente de Percepción-Acción** | FSM + Strategy Pattern | Decisiones en tiempo real: ~44 FPS (LOW) · ~12 FPS (MEDIUM) · ~8.1 FPS (HIGH) |
+**Métricas clave:** RiskLSTM Pearson r=0.916 · BNN Pearson r=0.615 (test) · SegFormer val_mIoU=0.4661 · YOLOv8n mAP@0.5=0.0886*
 
-**Dataset:** [BDD100K](https://www.vis.xyz/bdd100k/) — 61,345 imágenes curadas  
-**Validación OOD:** BDDA Xia2018 — 925 clips dashcam reales, 1280×720 px  
-**Hardware:** NVIDIA GTX 1660 Ti (6GB VRAM) · CUDA 12.1
+> *\*El bajo mAP es intencional: YOLOv8n actúa como extractor de nodos para la GCN, no como detector final.*
 
 ---
 
-## 🌿 Estructura del Repositorio — Explora las Ramas
+### 🟢 Estrategia II — Preprocesamiento Uniforme y Multitarea *(José Antonio)* ⭐ Mejor detección
 
-El repositorio está organizado en **ramas independientes por estrategia**. Cada una contiene los notebooks, resultados y documentación específicos de ese pipeline:
+Aplica **CLAHE uniforme** a la totalidad del dataset (~70,000 imágenes) sin distinción de condición lumínica, simplificando el preprocesamiento. Entrena YOLOv8n con **fine-tuning completo** sobre BDD100K en 4 macro-clases estratégicas (Vehículo, Señales, Peatón, Dos_Ruedas), con Early Stopping que detuvo el entrenamiento en la época 97 (mejor época: 82). Complementa la detección con YOLOv8n-seg preentrenado para máscaras de segmentación holográficas. El agente ADAS resultante procesa video real de forma fluida a más de **30 FPS** con latencia constante de ≈33 ms, incluso en escenas urbanas saturadas.
 
-main  ←  Estás aquí · Visión general y comparativa del proyecto
-│
-├── 📂 strategy-roy / strategy-I
-│     Pipeline completo de 5 etapas (Rogelio)
-│     ├── 01_preprocessing.ipynb          — CLAHE condicional
-│     ├── 02_spatial_perception.ipynb     — YOLOv8n + SegFormer + ResNet
-│     ├── 03_spatiotemporal_modeling.ipynb — GCNEncoder + RiskLSTM
-│     ├── 04_prediction_alerting.ipynb    — BNN + MC Dropout
-│     └── 05_perception_action_agent.ipynb — Agente FSM tiempo real
-│
-├── 📂 strategy-jose / strategy-II
-│     Pipeline de detección multitarea con CLAHE uniforme (José Antonio)
-│     ├── Preprocesamiento CLAHE uniforme sobre ~70,000 imágenes
-│     ├── Fine-tuning YOLOv8n (mAP@0.5 = 0.573 · 97 épocas)
-│     └── Agente ADAS heurístico >30 FPS · latencia ≈33ms
-│
-└── 📂 strategy-manuel / strategy-III
-Pipeline con Retinex + CLAHE (Manuel)
-├── Preprocesamiento CLAHE nocturno + Retinex diurno
-├── Entrenamiento YOLOv8n 9 clases (50 épocas)
-└── mAP@0.5 = 0.458 · mAP@0.5:0.95 = 0.254
+**Métricas clave:** mAP@0.5=**0.573** · Señales 96% sensibilidad · Vehículos 91% sensibilidad · >30 FPS latencia ≈33ms
 
-> 💡 Cada rama tiene su propio README con instrucciones de instalación y reproducción de experimentos.
+---
+
+### 🟠 Estrategia III — Mejora de Visibilidad mediante Retinex y CLAHE *(Manuel)*
+
+Aplica tratamiento inverso según condición lumínica: **CLAHE para imágenes nocturnas** y el algoritmo de **Retinex para imágenes diurnas**, buscando restauración de color y corrección de alto brillo. Entrena YOLOv8n en **9 categorías** de tráfico (car, truck, bus, motorcycle, bicycle, person, train, traffic light, traffic sign) durante 50 épocas a resolución 640px. El análisis por clase revela un buen desempeño en vehículos (AP=0.62) y señalética (traffic light 0.47, traffic sign 0.45), con el mayor reto en la clase `person` (AP=0.27), frecuentemente confundida con el fondo.
+
+**Métricas clave:** mAP@0.5=0.458 · mAP@0.5:0.95=0.254 · car AP=0.62 · person AP=0.27
 
 ---
 
 ## 📊 Resultados Comparativos
 
-### Percepción Visual (YOLOv8n — detección de objetos)
+### Percepción Visual (YOLOv8n)
 
 | Estrategia | Preprocesamiento | mAP@0.5 | mAP@0.5:0.95 | FPS |
 |-----------|----------------|---------|-------------|-----|
-| **I** (Roy) | Norm. nocturna + CLAHE diurna | 0.0886* | 0.0572 | 44–8.1 |
+| **I** (Rogelio) | Norm. nocturna + CLAHE diurna | 0.0886* | 0.0572 | 44 – 8.1 |
 | **II** (José) ⭐ | CLAHE uniforme | **0.573** | **0.297** | >30 |
 | **III** (Manuel) | CLAHE nocturna + Retinex diurna | 0.458 | 0.254 | — |
-
-> *\*Bajo mAP intencional: en la Estrategia I, YOLOv8n actúa como **extractor de nodos para la GCN**, no como detector final — el mAP no es la métrica relevante para su rol.*
 
 ### Modelado de Riesgo Temporal (Estrategia I)
 
@@ -93,9 +69,7 @@ Pipeline con Retinex + CLAHE (Manuel)
 | BNNRiskPredictor | Test (BDDA) | 0.615 | val_loss = 0.0148 |
 | SegFormer-B0 | Validación | — | val_mIoU = 0.4661 |
 
-### Conclusión del Estudio Comparativo
-
-> La **Estrategia II** obtuvo el mejor mAP de detección (0.573), con 96% de sensibilidad en señales y 91% en vehículos, y es la arquitectura óptima para un sistema ADAS en tiempo real. La **Estrategia I** complementa este resultado con el modelado temporal más sofisticado (r=0.916) y cuantificación de incertidumbre bayesiana.
+> La **Estrategia II** logró el mejor rendimiento de detección (mAP@0.5=0.573) y es la arquitectura óptima para un sistema ADAS en tiempo real. La **Estrategia I** aporta el modelado temporal más sofisticado (r=0.916) con cuantificación de incertidumbre bayesiana.
 
 ---
 
@@ -138,5 +112,4 @@ Desarrollado como parte del programa **Samsung Innovation Campus 2025–2026**.
 <div align="center">
   <sub>Equipo 8 · Grupo 8 · Samsung Innovation Campus 2025–2026 · México</sub>
 </div>
-
 
