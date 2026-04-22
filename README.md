@@ -10,9 +10,9 @@ Sistema de prevención de colisiones en tiempo real. Este módulo implementa un 
 
 ### HUD de Telemetría (Overlay Alpha Blending)
 
-|      Entorno de Prueba      |  Máscaras de Segmentación  | Detección Crítica y Alertas |
-| :-------------------------: | :------------------------: | :-------------------------: | --- | --- |
-| ![hud1](assents/image2.jpg) | ![hud2](assents/image.png) | ![hud3](assents/image3.png) |     |     |
+| Entorno de Prueba | Máscaras de Segmentación | Detección Crítica y Alertas |
+| :-------------------------: | :------------------------: | :-------------------------: |
+| ![hud1](assents/image2.jpg) | ![hud2](assents/image.png) | ![hud3](assents/image3.png) |
 
 ### Entregables de Inferencia
 
